@@ -13,6 +13,7 @@ By storing your Terraform state remotely, you can collaborate with your team saf
 ```bash
 .
 ├── main.tf           # Terraform configuration for S3 bucket and DynamoDB table
+├── Provider.tf       # Provider information
 ├── .gitignore        # Ignore sensitive and temporary Terraform files
 └── README.md         # Project documentation
 ```
