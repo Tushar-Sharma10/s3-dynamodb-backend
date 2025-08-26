@@ -11,8 +11,9 @@ resource "aws_s3_bucket" "terraform_state" {
 
 # MAKE THE BUCKET PRIVATE
 resource "aws_s3_bucket_acl" "private_bucket" {
-  bucket = aws_s3_bucket.terraform_state.id
-  acl    = "private"
+  bucket     = aws_s3_bucket.terraform_state.id
+  acl        = "private"
+  depends_on = [aws_s3_bucket_ownership_controls.owner_ctrl]
 }
 
 # ENABLE VERSIONING
@@ -20,6 +21,14 @@ resource "aws_s3_bucket_versioning" "versioning" {
   bucket = aws_s3_bucket.terraform_state.id
   versioning_configuration {
     status = "Enabled"
+  }
+}
+
+# CHANGING THE OBJECT OWNERSHIP TO BUCKET OWNER
+resource "aws_s3_bucket_ownership_controls" "owner_ctrl" {
+  bucket = aws_s3_bucket.terraform_state.id
+  rule {
+    object_ownership = "BucketOwnerPreferred"
   }
 }
 
