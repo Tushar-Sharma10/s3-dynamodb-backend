@@ -41,3 +41,14 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "encryption" {
     }
   }
 }
+
+# CREATE A DYNAMODB DATABASE
+resource "aws_dynamodb_table" "terraform_state_lock" {
+  name         = "terraform_state_lock"
+  hash_key     = "LockID"
+  billing_mode = "PAY_PER_REQUEST"
+  attribute {
+    name = "LockID"
+    type = "S"
+  }
+}
